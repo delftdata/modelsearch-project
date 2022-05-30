@@ -75,7 +75,6 @@
               </q-card-section>
             </q-card>
 
-            <!-- TODO: allow custom input -->
             <q-card v-if="val.type == 'metric'">
               <q-card-section>
                 <q-form
@@ -86,6 +85,11 @@
                 >
                   <q-select
                     filled
+                    use-input
+                    fill-input
+                    input-debounce="0"
+                    hide-selected
+                    @input-value="(inputVal) => setModel(val.label, inputVal)"
                     v-model="attributeModels[val.label]"
                     :options="val.metrics"
                     label="Metric"
@@ -315,6 +319,9 @@ export default defineComponent({
         context.attributeModels[attr] = null;
         context.attributeModelValues[attr] = null;
       });
+    },
+    setModel(key, val) {
+      this.attributeModels[key] = val;
     },
   },
 
