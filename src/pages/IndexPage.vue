@@ -190,6 +190,7 @@ export default defineComponent({
       }
 
       // Evaluation Result
+      // TODO: add support for approximate match ("~")
       var evalFilters = this.filters
         .filter((f) => f.attribute == "Evaluation Results")
         .map((f) => {
@@ -217,6 +218,7 @@ export default defineComponent({
       }
 
       // Hyperparameters -- only on string for now
+      // TODO: add support for numeric values
       var hyperFilters = this.filters
         .filter((f) => f.attribute == "Hyperparameters")
         .map((f) => {
