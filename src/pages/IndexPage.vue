@@ -109,7 +109,9 @@ export default defineComponent({
         res.where(function (obj) {
           return evalFilters.every((p) => {
             return obj["Evaluation Results"].some((c) => {
-              return c.metric.includes(p.name) && c.value > p.value;
+              return (
+                c.metric.toLowerCase().includes(p.name) && c.value > p.value
+              );
             });
           });
         });
