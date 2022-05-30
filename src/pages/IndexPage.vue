@@ -1,7 +1,7 @@
 <template>
   <q-page style="background: `grey`">
     <q-form @submit="this.search">
-      <q-input color="primary" filled v-model="query" label="Model Name">
+      <q-input color="primary" filled v-model="query" label="Search">
         <template v-slot:prepend>
           <q-icon name="search" />
         </template>
