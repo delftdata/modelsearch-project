@@ -143,7 +143,9 @@
         square
       >
         {{ val.keyword }}
-        <q-badge v-if="val.value" color="grey"> {{ val.value }} </q-badge>
+        <q-badge v-if="val.value" color="grey"
+          >{{ val.sign }} {{ val.value }}
+        </q-badge>
       </q-chip>
     </q-drawer>
     <q-page-container>
@@ -345,6 +347,7 @@ export default defineComponent({
               ? context.attributeModels[attr]
               : context.attributeModels[attr].label,
           value: context.attributeModelValues[attr],
+          sign: context.attributeModelSigns[attr],
         });
         context.attributeModels[attr] = null;
         context.attributeModelValues[attr] = null;
