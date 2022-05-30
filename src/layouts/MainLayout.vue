@@ -136,7 +136,7 @@
 import { defineComponent, ref } from "vue";
 import IndexPage from "pages/IndexPage.vue";
 import loki from "lokijs";
-import * as jsonData from "../assets/dump.json";
+import { useQuasar } from "quasar";
 import { nextTick } from "vue";
 const attrList = [
   {
@@ -321,20 +321,32 @@ export default defineComponent({
       });
     },
     setModel(key, val) {
-      this.attributeModels[key] = val;
+      this.attributeModels[key] = { label: val, type: "string" };
     },
   },
-
+  mounted() {
+    var context = this;
+    import("../assets/dump.json").then((jsonData) => {
+      this.loaded = true;
+      this.models.insert(JSON.parse(JSON.stringify(jsonData))["default"]);
+      context.$q.loading.hide();
+    });
+  },
   setup() {
+    const $q = useQuasar();
+    $q.loading.show({
+      delay: 100, // ms
+    });
     const leftDrawerOpen = ref(false);
     var db = new loki("mlhub.db");
     var models = db.addCollection("models");
     // The JSON is copied because Vue automatically turns it into a property, interfering with LokiJS
-    models.insert(JSON.parse(JSON.stringify(jsonData))["default"]);
+
     return {
       models: models,
       original: attrList,
       attributes: attrList,
+      $q,
       leftDrawerOpen,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
