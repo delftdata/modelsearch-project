@@ -172,15 +172,40 @@ export default defineComponent({
       var evalFilters = this.filters
         .filter((f) => f.attribute == "Evaluation Results")
         .map((f) => {
-          return { name: f.keyword, value: f.value };
+          return { name: f.keyword, value: f.value, sign: f.sign };
         });
       if (evalFilters.length > 0) {
         res.where(function (obj) {
           return evalFilters.every((p) => {
             return obj["Evaluation Results"].some((c) => {
-              return (
-                c.metric.toLowerCase().includes(p.name) && c.value > p.value
-              );
+              var bl = c.metric.toLowerCase().includes(p.name);
+              switch (p.sign) {
+                case ">":
+                  return bl && c.value > p.value;
+                case "=":
+                  console.log("Works2");
+                  return bl && c.value == p.value;
+                case "<":
+                  console.log("Works3");
+                  return bl && c.value < p.value;
+              }
+              return false;
+            });
+          });
+        });
+      }
+
+      // Hyperparameters -- only on string for now
+      var hyperFilters = this.filters
+        .filter((f) => f.attribute == "Hyperparameters")
+        .map((f) => {
+          return { name: f.keyword, value: f.value };
+        });
+      if (hyperFilters.length > 0) {
+        res.where(function (obj) {
+          return hyperFilters.every((p) => {
+            return obj["Hyperparameters"].some((c) => {
+              return c.metric.toLowerCase().includes(p.name);
             });
           });
         });
