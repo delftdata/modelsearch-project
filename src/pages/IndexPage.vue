@@ -13,14 +13,35 @@
           <q-expansion-item
             @show="tabs[obj[`Model Name`]] = `Main`"
             :label="obj[`Model Name`]"
-            :caption="obj[`Task`] + ` --- ` + obj[`Training Data`].join(`, `)"
+            :caption="obj[`Task`]"
             expand-separator
           >
             <q-tabs v-model="tabs[obj[`Model Name`]]" stretch>
               <q-tab name="Main" label="Main" />
-              <q-tab name="Datasets" label="Datasets" />
-              <q-tab name="Metrics" label="Metrics" />
-              <q-tab name="Hyperparameters" label="Hyperparameters" />
+              <q-tab name="Datasets" label="Datasets">
+                <q-badge
+                  v-if="obj[`Training Data`].length > 0"
+                  color="primary"
+                  floating
+                  >{{ obj[`Training Data`].length }}</q-badge
+                >
+              </q-tab>
+              <q-tab name="Metrics" label="Metrics">
+                <q-badge
+                  v-if="Object.keys(obj[`Evaluation Results`]).length > 0"
+                  color="primary"
+                  floating
+                  >{{ Object.keys(obj[`Evaluation Results`]).length }}</q-badge
+                >
+              </q-tab>
+              <q-tab name="Hyperparameters" label="Hyperparameters">
+                <q-badge
+                  v-if="Object.keys(obj[`Hyperparameters`]).length > 0"
+                  color="primary"
+                  floating
+                  >{{ Object.keys(obj[`Hyperparameters`]).length }}</q-badge
+                >
+              </q-tab>
             </q-tabs>
 
             <q-tab-panels v-model="tabs[obj[`Model Name`]]" animated>
