@@ -11,22 +11,71 @@
       <q-item v-for="obj in this.results" :key="obj">
         <q-item-section>
           <q-expansion-item
+            @show="tabs[obj[`Model Name`]] = `Main`"
             :label="obj[`Model Name`]"
             :caption="obj[`Task`] + ` --- ` + obj[`Training Data`].join(`, `)"
             expand-separator
           >
-            <q-markup-table>
-              <thead>
-                <tr>
-                  <th class="text-left">Property</th>
-                  <th class="text-right">Value</th>
-                </tr>
-                <tr v-for="k in Object.keys(obj)" :key="k">
-                  <td class="text-left">{{ k }}</td>
-                  <td class="text-right">{{ obj[k] }}</td>
-                </tr>
-              </thead>
-            </q-markup-table>
+            <q-tabs v-model="tabs[obj[`Model Name`]]" stretch>
+              <q-tab name="Main" label="Main" />
+              <q-tab name="Datasets" label="Datasets" />
+              <q-tab name="Metrics" label="Metrics" />
+              <q-tab name="Hyperparameters" label="Hyperparameters" />
+            </q-tabs>
+
+            <q-tab-panels v-model="tabs[obj[`Model Name`]]" animated>
+              <q-tab-panel name="Main">
+                <q-markup-table>
+                  <thead>
+                    <tr>
+                      <th class="text-left">Property</th>
+                      <th class="text-right">Value</th>
+                    </tr>
+                    <tr
+                      v-for="k in [`Model Name`, `Type`, `Task`, `Url`]"
+                      :key="k"
+                    >
+                      <td class="text-left">{{ k }}</td>
+                      <td class="text-right">{{ obj[k] }}</td>
+                    </tr>
+                  </thead>
+                </q-markup-table>
+              </q-tab-panel>
+              <q-tab-panel name="Datasets">
+                <q-list>
+                  <q-card>
+                    <q-card-section><b>Datasets</b></q-card-section>
+                    <q-separator></q-separator>
+                    <q-list-item v-for="v in obj[`Training Data`]" :key="v">
+                      <q-card-section
+                        ><a
+                          :href="`https://huggingface.co/datasets/${v}`"
+                          target="_blank"
+                          >{{ v }}</a
+                        ></q-card-section
+                      >
+                    </q-list-item>
+                  </q-card>
+                </q-list>
+              </q-tab-panel>
+              <q-tab-panel name="Metrics">
+                <q-markup-table>
+                  <thead>
+                    <tr>
+                      <th class="text-left">Metric</th>
+                      <th class="text-right">Value</th>
+                    </tr>
+                    <tr v-for="k in obj[`Evaluation Results`]" :key="k">
+                      <td class="text-left">{{ k[`metric`] }}</td>
+                      <td class="text-right">
+                        {{ k[`value`] }}
+                      </td>
+                    </tr>
+                  </thead>
+                </q-markup-table>
+              </q-tab-panel>
+              <q-tab-panel name="Hyperparameters"></q-tab-panel>
+            </q-tab-panels>
           </q-expansion-item>
         </q-item-section>
         <q-item-section side top>
