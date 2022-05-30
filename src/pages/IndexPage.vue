@@ -74,7 +74,22 @@
                   </thead>
                 </q-markup-table>
               </q-tab-panel>
-              <q-tab-panel name="Hyperparameters"></q-tab-panel>
+              <q-tab-panel name="Hyperparameters">
+                <q-markup-table>
+                  <thead>
+                    <tr>
+                      <th class="text-left">Parameter</th>
+                      <th class="text-right">Value</th>
+                    </tr>
+                    <tr v-for="k in obj[`Hyperparameters`]" :key="k">
+                      <td class="text-left">{{ k[`metric`] }}</td>
+                      <td class="text-right">
+                        {{ k[`value`] }}
+                      </td>
+                    </tr>
+                  </thead>
+                </q-markup-table>
+              </q-tab-panel>
             </q-tab-panels>
           </q-expansion-item>
         </q-item-section>

@@ -26,7 +26,10 @@
             ref="expanders"
             icon="square"
             :id="val"
-            @show="this.closeExpanders(index, $event)"
+            @show="
+              this.closeExpanders(index, $event);
+              attributeModelSigns[val.label] = `>`;
+            "
             :expand-icon-class="getColor(val.label)"
             v-model="attributeExpanderStates[val.label]"
             style="width: 100%"
@@ -94,12 +97,33 @@
                     :options="val.metrics"
                     label="Metric"
                   />
+                  <div
+                    style="display: table"
+                    v-if="attributeModels[val.label]?.type == `number`"
+                  >
+                    <q-select
+                      filled
+                      style="width: 25%; display: table-cell"
+                      type="number"
+                      step="0.1"
+                      v-model="attributeModelSigns[val.label]"
+                      :options="[`>`, `=`, `<`, `~`]"
+                      label="Sign"
+                    />
+                    <q-input
+                      filled
+                      style="width: 50%; display: table-cell"
+                      type="number"
+                      step="0.1"
+                      v-model="attributeModelValues[val.label]"
+                      label="Value"
+                    />
+                  </div>
                   <q-input
+                    v-else
                     filled
-                    type="number"
-                    step="0.1"
                     v-model="attributeModelValues[val.label]"
-                    label="Value"
+                    label="Contains"
                   />
                   <q-btn v-show="false" label="Submit" type="submit"></q-btn>
                 </q-form>
@@ -271,6 +295,12 @@ export default defineComponent({
         })
       ),
       attributeModelValues: Object.assign(
+        {},
+        ...attrList.map((x) => {
+          return { [x.label]: null };
+        })
+      ),
+      attributeModelSigns: Object.assign(
         {},
         ...attrList.map((x) => {
           return { [x.label]: null };
