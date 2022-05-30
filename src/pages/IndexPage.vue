@@ -56,12 +56,17 @@ export default defineComponent({
     return {
       results: [],
       query: "",
+      tabs: {},
     };
   },
   watch: {
     filters: {
       handler(n, o) {
-        this.search();
+        if (this.query.length > 0 || n.length > 0) {
+          this.search();
+        } else {
+          this.results = [];
+        }
       },
       deep: true,
     },
