@@ -14,6 +14,7 @@
             @show="tabs[obj[`Model Name`]] = `Main`"
             :label="obj[`Model Name`]"
             :caption="obj[`Task`]"
+            style="overflow-x: scroll; width: 100%"
             expand-separator
           >
             <q-tabs v-model="tabs[obj[`Model Name`]]" stretch>
@@ -50,14 +51,14 @@
                   <thead>
                     <tr>
                       <th class="text-left">Property</th>
-                      <th class="text-right">Value</th>
+                      <th class="text-left">Value</th>
                     </tr>
                     <tr
                       v-for="k in [`Model Name`, `Type`, `Task`, `Url`]"
                       :key="k"
                     >
                       <td class="text-left">{{ k }}</td>
-                      <td class="text-right">{{ obj[k] }}</td>
+                      <td class="text-left">{{ obj[k] }}</td>
                     </tr>
                   </thead>
                 </q-markup-table>
@@ -84,11 +85,11 @@
                   <thead>
                     <tr>
                       <th class="text-left">Metric</th>
-                      <th class="text-right">Value</th>
+                      <th class="text-left">Value</th>
                     </tr>
                     <tr v-for="k in obj[`Evaluation Results`]" :key="k">
                       <td class="text-left">{{ k[`metric`] }}</td>
-                      <td class="text-right">
+                      <td class="text-left">
                         {{ k[`value`] }}
                       </td>
                     </tr>
@@ -96,15 +97,15 @@
                 </q-markup-table>
               </q-tab-panel>
               <q-tab-panel name="Hyperparameters">
-                <q-markup-table>
+                <q-markup-table style="max-width: 100%">
                   <thead>
                     <tr>
                       <th class="text-left">Parameter</th>
-                      <th class="text-right">Value</th>
+                      <th class="text-left">Value</th>
                     </tr>
                     <tr v-for="k in obj[`Hyperparameters`]" :key="k">
                       <td class="text-left">{{ k[`metric`] }}</td>
-                      <td class="text-right">
+                      <td class="text-left">
                         {{ k[`value`] }}
                       </td>
                     </tr>
