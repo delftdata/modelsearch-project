@@ -158,6 +158,40 @@ export default defineComponent({
     },
   },
   methods: {
+    applyMetricFilter(queryObject, attributeName) {
+      var filteredFilters = this.filters
+        .filter((f) => f.attribute == attributeName)
+        .map((f) => {
+          return { name: f.keyword, value: f.value, sign: f.sign };
+        });
+      if (filteredFilters.length > 0) {
+        queryObject.where(function (obj) {
+          return filteredFilters.every((p) => {
+            return obj[attributeName].some((c) => {
+              var bl = c.metric.toLowerCase().includes(p.name);
+              switch (p.sign) {
+                case ">":
+                  return bl && c.value > p.value;
+                case "=":
+                  return bl && c.value == p.value;
+                case "<":
+                  return bl && c.value < p.value;
+                case "~":
+                  return (
+                    bl && c.value > 0.9 * p.value && c.value < 1.1 * p.value
+                  );
+                case "⊇":
+                  return (
+                    bl &&
+                    String(c.value).toLowerCase().includes(String(p.value))
+                  );
+              }
+              return false;
+            });
+          });
+        });
+      }
+    },
     search() {
       var res = this.models.chain();
 
@@ -191,49 +225,11 @@ export default defineComponent({
       }
 
       // Evaluation Result
-      // TODO: add support for approximate match ("~")
-      var evalFilters = this.filters
-        .filter((f) => f.attribute == "Evaluation Results")
-        .map((f) => {
-          return { name: f.keyword, value: f.value, sign: f.sign };
-        });
-      if (evalFilters.length > 0) {
-        res.where(function (obj) {
-          return evalFilters.every((p) => {
-            return obj["Evaluation Results"].some((c) => {
-              var bl = c.metric.toLowerCase().includes(p.name);
-              switch (p.sign) {
-                case ">":
-                  return bl && c.value > p.value;
-                case "=":
-                  console.log("Works2");
-                  return bl && c.value == p.value;
-                case "<":
-                  console.log("Works3");
-                  return bl && c.value < p.value;
-              }
-              return false;
-            });
-          });
-        });
-      }
+      this.applyMetricFilter(res, "Evaluation Results");
 
-      // Hyperparameters -- only on string for now
-      // TODO: add support for numeric values
-      var hyperFilters = this.filters
-        .filter((f) => f.attribute == "Hyperparameters")
-        .map((f) => {
-          return { name: f.keyword, value: f.value };
-        });
-      if (hyperFilters.length > 0) {
-        res.where(function (obj) {
-          return hyperFilters.every((p) => {
-            return obj["Hyperparameters"].some((c) => {
-              return c.metric.toLowerCase().includes(p.name);
-            });
-          });
-        });
-      }
+      // Hyperparameters
+      this.applyMetricFilter(res, "Hyperparameters");
+
       this.results = res.data();
     },
   },

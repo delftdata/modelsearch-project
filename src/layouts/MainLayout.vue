@@ -104,17 +104,13 @@
                     <q-select
                       filled
                       style="width: 25%; display: table-cell"
-                      type="number"
-                      step="0.1"
                       v-model="attributeModelSigns[val.label]"
-                      :options="[`>`, `=`, `<`, `~`]"
+                      :options="[`>`, `=`, `<`, `~`, `⊇`]"
                       label="Sign"
                     />
                     <q-input
                       filled
                       style="width: 50%; display: table-cell"
-                      type="number"
-                      step="0.1"
                       v-model="attributeModelValues[val.label]"
                       label="Value"
                     />
@@ -340,6 +336,10 @@ export default defineComponent({
     submitFilter(attr) {
       var context = this;
       nextTick(function () {
+        if (context.attributeModels[attr]?.type == "string") {
+          context.attributeModelSigns[attr] = "⊇";
+        }
+
         context.activeFilters.push({
           attribute: attr,
           keyword:
