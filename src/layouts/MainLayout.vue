@@ -1,8 +1,13 @@
 <template>
-  <q-layout view="hHh lpR fFf">
-    <q-header elevated>
+  <q-layout view="lHh Lpr lFf">
+    <q-header reveal elevated>
       <q-toolbar>
-        <q-toolbar-title> ML Hub </q-toolbar-title>
+        <q-toolbar-title> ML Model Search </q-toolbar-title>
+        <q-space />
+        <div class="cursor-pointer non-selectable">
+          <q-btn flat clickable icon="home" @click="showHome"/>
+          <q-btn flat clickable label="Documentation" @click="showDocumentation"/>
+        </div>
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
@@ -11,7 +16,8 @@
       show-if-above
       bordered
       class="bg-white"
-      :width="400"
+      :width="300"
+      :mini-width="100"
       :breakpoint="200"
     >
       <q-list>
@@ -144,13 +150,18 @@
         </q-badge>
       </q-chip>
     </q-drawer>
+    
+
     <q-page-container>
       <IndexPage
         ref="results"
         :filters="this.activeFilters"
         :models="this.models"
+        :flag="this.flag"
+        :attrList=attrList
       />
     </q-page-container>
+
   </q-layout>
 </template>
 
@@ -161,11 +172,6 @@ import loki from "lokijs";
 import { useQuasar } from "quasar";
 import { nextTick } from "vue";
 const attrList = [
-  {
-    color: "purple-3",
-    label: "Training Data",
-    type: "string",
-  },
   {
     color: "teal-3",
     label: "Type",
@@ -213,6 +219,11 @@ const attrList = [
       { label: "Zero Shot Classification" },
       { label: "Zero Shot Image Classification" },
     ],
+  },
+  {
+    color: "purple-3",
+    label: "Training Data",
+    type: "string",
   },
   {
     color: "brown-3",
@@ -308,6 +319,8 @@ export default defineComponent({
         return { [x.label]: false };
       }),
       activeFilters: [],
+      flag: true,
+      attrList,
     };
   },
   computed: {
@@ -316,6 +329,14 @@ export default defineComponent({
   methods: {
     removeFilter(model) {
       this.activeFilters = this.activeFilters.filter((x) => x !== model);
+    },
+    showDocumentation(){
+      this.flag = true;
+      this.activeFilters = [];
+    },
+    showHome(){
+      this.flag = false;
+      this.activeFilters = [];
     },
     getColor(attr) {
       var color;

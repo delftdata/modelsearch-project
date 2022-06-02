@@ -7,6 +7,161 @@
         </template>
       </q-input>
     </q-form>
+
+    <div class="q-pa-md" v-if="this.docFlag && this.results.length == 0" >
+      <div class="row">
+        <div class="col">
+        </div>
+
+        <div class="col-8">
+            <p class="q-pa-lg q-mb-none text-h3 text-center" >
+              A metadata search engine enabling exploration of the full ML life-cycle.
+            </p>
+            <p class="q-pa-lg q-mb-none text-body1 text-center" >
+              ModelSearch enables retrieving ML models and relevant attributes based on our proposed metadata representation, facilitating complex inference queries over model zoo.
+            </p>
+        </div>
+
+        <div class="col">
+        </div>
+      </div>
+    </div>
+
+    <div class="row" v-if="this.docFlag && this.results.length == 0">
+        <div class="col-1">
+        </div>
+        <div class="col-10">
+          <p class="q-pa-lg q-mb-none text-h4 text-left" >
+              How it works
+          </p>
+          <p class="q-pa-lg q-mb-none text-body1 text-left" >
+              The left panel shows different filtering conditions: Type, Task, Training Data, Hyperparameters, and Evaluation Results.
+              You can select multiple conditions and the selected filters will be listed below. 
+              Besides selecting options from the drop-down menu, you can also set constraints on certain attributes.
+              The selected filters will be presented to remind users.
+              The models that can meet the specified conditions will be shown on the right panel, as a form of a expandable model card.
+          </p>
+          <div class="q-pa-md">
+            <div class="q-col-gutter-md row items-start">
+              <div class="col-2">
+              </div>
+              <div class="col-3">
+                <q-img
+                  fit="scale-down"
+                  style="height: 370px; max-width: 300px"
+                  src="src/assets/task-screenshot.png">
+                  <div class="absolute-bottom-right text-body2 text-center">
+                    Select from options
+                  </div>
+                </q-img>
+              </div>
+
+              <div class="col-3">
+                <div class="q-col-gutter-md dol items-start">
+                  <div class="col-6">
+                    <q-img
+                      fit="scale-down"
+                      style="height: 170px; max-width: 300px"
+                      src="src/assets/result-screenshot.png">
+                      <div class="absolute-bottom-right text-body2 text-center">
+                        Specify constraints
+                      </div>
+                    </q-img>
+                  </div>
+                  <div class="col-1">
+                  </div>
+                  <div class="col-6">
+                    <q-img
+                      fit="scale-down"
+                      style="height: 170px; max-width: 300px"
+                      src="src/assets/selected-screenshot.png">
+                      <div class="absolute-bottom-right text-body2 text-center">
+                        Show selected filters
+                      </div>
+                    </q-img>
+                  </div>
+                </div>
+                <div class="col-1">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="q-pa-lg q-mb-none text-body1 text-left" >
+              Users may also search models based on keywords. 
+          </p>
+          <div class="q-pa-md">
+            <div class="q-col-gutter-md row items-start">
+              <div class="col-4">
+              </div>
+              <div class="col-6">
+                <q-img
+                  fit="scale-down"
+                  style="height: 100px; max-width: 300px"
+                  src="src/assets/search-screenshot.png">
+                  <div class="absolute-bottom-right text-body2 text-center">
+                    Select from options
+                  </div>
+                </q-img>
+              </div>
+              <div class="col-3">
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="row" v-if="this.docFlag && this.results.length == 0">
+        <div class="col">
+        </div>
+            <div class="col-10">
+              <p class="q-pa-lg q-mb-none text-h5 text-left" >
+                Filtering Conditions
+              </p>
+              <p class="q-pa-lg q-mb-none text-body1 text-left" >
+                We provide the list of conditions for users to explore. We include the categories of each conditions so that users are aware of the scope of the search. 
+                For now, the categories are extracted from HuggingFace.
+                We will include more metadata in the future.
+              </p>
+              <q-list padding>
+                <q-item v-for="attr in attrList" :key="attr.label">
+                  <q-item-section avatar>
+                    <q-avatar icon="square" :text-color="getColor(attr.label)" />
+                  </q-item-section>
+                  <q-expansion-item
+                    :label="attr[`label`]"
+                    :caption="attr[`type`]"
+                    style="overflow-x: scroll; width: 100%;"
+                    expand-separator
+                  >
+                    <q-markup-table v-if="attr.type == 'categorical'">
+                      <thead>
+                        <tr
+                          v-for="category in attr.categories" :key="category.label"
+                        >
+                          <td class="text-left">{{ category.label }}</td>
+                        </tr>
+                      </thead>
+                    </q-markup-table>
+
+                    <q-markup-table v-if="attr.type == 'metric'">
+                      <thead>
+                        <tr
+                          v-for="metric in attr.metrics" :key="metric.label"
+                        >
+                          <td class="text-left">{{ metric.label }}</td>
+                        </tr>
+                      </thead>
+                    </q-markup-table>
+                  </q-expansion-item>
+                </q-item>
+              </q-list>
+          </div>
+        <div class="col">
+      </div>
+    </div>
+
+    
+
     <q-list bordered separator>
       <q-item v-for="obj in this.results" :key="obj">
         <q-item-section>
@@ -137,15 +292,25 @@ export default defineComponent({
   props: {
     filters: null, // Strangely, initializing as array causes a type mismatch
     models: null,
+    flag: Boolean,
+    attrList: null,
   },
   data() {
     return {
       results: [],
       query: "",
       tabs: {},
+      docFlag: this.flag,
     };
   },
   watch: {
+    flag: {
+      immediate: true, 
+      handler (val, oldVal) {
+        // do your stuff
+        this.docFlag = val
+      }
+    },
     filters: {
       handler(n, o) {
         if (this.query.length > 0 || n.length > 0) {
@@ -191,6 +356,15 @@ export default defineComponent({
           });
         });
       }
+    },
+    getColor(attr) {
+      var color;
+      this.attrList.forEach((element) => {
+        if (element.label == attr) {
+          color = element.color;
+        }
+      });
+      return color;
     },
     search() {
       var res = this.models.chain();
