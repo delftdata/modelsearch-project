@@ -128,7 +128,7 @@
             <q-expansion-item
               :label="attr[`label`]"
               :caption="attr[`type`]"
-              style="overflow-x: scroll; width: 100%"
+              style="width: 100%"
               expand-separator
             >
               <q-markup-table v-if="attr.type == 'categorical'">
