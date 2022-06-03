@@ -12,12 +12,12 @@
       </q-toolbar>
     </q-header>
 
-    <q-footer class="bg-white text-primary">
+    <q-footer bordered class="bg-white text-primary">
         <q-toolbar>
           <q-toolbar-title></q-toolbar-title>
           <q-img
                 fit="scale-down"
-                style="height: 60px; max-width: 100px"
+                style="height: 50px; max-width: 100px"
                 src="TU_P1_full-color.png"
           />
           <q-img

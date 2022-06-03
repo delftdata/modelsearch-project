@@ -2,7 +2,7 @@
   "name": "mlhubq",
   "version": "0.0.1",
   "description": "A Quasar Project",
-  "productName": "ML Hub",
+  "productName": "ML Model Search",
   "author": "Shaad Alaka <shaad1@live.nl>",
   "private": true,
   "scripts": {
