@@ -6,7 +6,7 @@
         <q-space />
         <div class="cursor-pointer non-selectable">
           <q-btn flat clickable icon="home" @click="showHome"/>
-          <q-btn flat clickable label="Documentation" @click="showDocumentation"/>
+          <q-btn flat clickable label="About" @click="showDocumentation"/>
         </div>
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
