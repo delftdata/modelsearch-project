@@ -11,6 +11,24 @@
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
+
+    <q-footer class="bg-white text-primary">
+        <q-toolbar>
+          <q-toolbar-title></q-toolbar-title>
+          <q-img
+                fit="scale-down"
+                style="height: 60px; max-width: 100px"
+                src="TU_P1_full-color.png"
+          />
+          <q-img
+                fit="scale-down"
+                style="height: 50px; max-width: 100px"
+                src="cognizant-logo.png"
+          />
+      </q-toolbar>
+    </q-footer>
+
+
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
@@ -20,6 +38,7 @@
       :mini-width="100"
       :breakpoint="200"
     >
+      
       <q-list>
         <p class="q-pa-lg q-mb-none text-h6 text-uppercase">Search Filters</p>
         <q-item
