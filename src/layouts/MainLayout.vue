@@ -169,7 +169,6 @@
         </q-badge>
       </q-chip>
     </q-drawer>
-    
 
     <q-page-container>
       <IndexPage
@@ -177,10 +176,9 @@
         :filters="this.activeFilters"
         :models="this.models"
         :flag="this.flag"
-        :attrList=attrList
+        :attrList="attrList"
       />
     </q-page-container>
-
   </q-layout>
 </template>
 
@@ -349,11 +347,11 @@ export default defineComponent({
     removeFilter(model) {
       this.activeFilters = this.activeFilters.filter((x) => x !== model);
     },
-    showDocumentation(){
+    showDocumentation() {
       this.flag = true;
       this.activeFilters = [];
     },
-    showHome(){
+    showHome() {
       this.flag = false;
       this.activeFilters = [];
     },
@@ -394,7 +392,7 @@ export default defineComponent({
       });
     },
     setModel(key, val) {
-      this.attributeModels[key] = { label: val, type: "string" };
+      this.attributeModels[key] = { label: val, type: "number" };
     },
   },
   mounted() {

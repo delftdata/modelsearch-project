@@ -324,7 +324,7 @@ export default defineComponent({
         queryObject.where(function (obj) {
           return filteredFilters.every((p) => {
             return obj[attributeName].some((c) => {
-              var bl = c.metric.toLowerCase().includes(p.name);
+              var bl = c.metric.toLowerCase().includes(p.name.toLowerCase());
               switch (p.sign) {
                 case ">":
                   return bl && c.value > p.value;
@@ -339,7 +339,9 @@ export default defineComponent({
                 case "⊇":
                   return (
                     bl &&
-                    String(c.value).toLowerCase().includes(String(p.value))
+                    String(c.value)
+                      .toLowerCase()
+                      .includes(String(p.value).toLowerCase())
                   );
               }
               return false;
