@@ -30,7 +30,7 @@
       show-if-above
       bordered
       class="bg-white"
-      :width="280"
+      :width="270"
       :mini-width="100"
       :breakpoint="500"
     >

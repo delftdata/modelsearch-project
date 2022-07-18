@@ -12,26 +12,25 @@
       <div class="row">
         <div class="col"></div>
 
-        <div class="col-8">
+        <div class="col-11">
           <p class="q-pa-lg q-mb-none text-h5 text-center">
-            A metadata search engine enabling exploration of the full ML
-            life-cycle.
+            A metadata search engine
+          </p>
+          <p class="q-pa-lg q-mb-none text-body1 text-center">
+            enables retrieving ML models and relevant attributes
+            based on our proposed metadata representation, facilitating complex
+            inference queries over model zoo.
           </p>
         </div>
 
-        <div class="col"></div>
       </div>
     </div>
 
     <div class="row" v-if="this.docFlag && this.results.length == 0">
       <div class="col-1"></div>
       <div class="col-10">
-          <p class="q-pa-lg q-mb-none text-body1 text-left">
-            ModelSearch enables retrieving ML models and relevant attributes
-            based on our proposed metadata representation, facilitating complex
-            inference queries over model zoo.
-          </p>
-        <p class="q-pa-lg q-mb-none text-h4 text-left">How it works</p>
+          
+        <p class="q-pa-lg q-mb-none text-h5 text-left">How it works</p>
         <p class="q-pa-lg q-mb-none text-body1 text-left">
           The left panel shows different filtering conditions: Type, Task,
           Training Data, Hyperparameters, and Evaluation Results. You can select
@@ -263,7 +262,7 @@
         </q-item-section>
         <q-item-section side top>
           <q-btn
-            size="lg"
+            size="md"
             icon="link"
             color="secondary"
             flat
