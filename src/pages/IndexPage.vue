@@ -13,12 +13,12 @@
         <div class="col"></div>
 
         <div class="col-11">
-          <p class="q-pa-lg q-mb-none text-h5 text-center">
+          <p class="q-pa-lg q-mb-none text-h6 text-center">
             A metadata search engine
           </p>
           <p class="q-pa-lg q-mb-none text-body1 text-center">
             enables retrieving ML models and relevant attributes
-            based on our proposed metadata representation, facilitating complex
+            throughout the ML life-cycle, facilitating complex
             inference queries over model zoo.
           </p>
         </div>
