@@ -1,7 +1,8 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh Lpr fFf">
     <q-header reveal elevated>
       <q-toolbar>
+        <q-btn flat @click="leftDrawerOpen = !leftDrawerOpen" round dense icon="menu" />
         <q-toolbar-title> ML Model Search </q-toolbar-title>
         <q-space />
         <div class="cursor-pointer non-selectable">
@@ -20,11 +21,6 @@
                 style="height: 50px; max-width: 100px"
                 src="TU_P1_full-color.png"
           />
-          <q-img
-                fit="scale-down"
-                style="height: 50px; max-width: 100px"
-                src="cognizant-logo.png"
-          />
       </q-toolbar>
     </q-footer>
 
@@ -34,18 +30,19 @@
       show-if-above
       bordered
       class="bg-white"
-      :width="300"
+      :width="280"
       :mini-width="100"
-      :breakpoint="200"
+      :breakpoint="500"
     >
       
-      <q-list>
+      <q-list padding>
         <p class="q-pa-lg q-mb-none text-h6 text-uppercase">Search Filters</p>
         <q-item
           v-for="(val, index) in attributes"
           :key="val.label"
           dense
           clickable
+          v-ripple
         >
           <q-expansion-item
             ref="expanders"

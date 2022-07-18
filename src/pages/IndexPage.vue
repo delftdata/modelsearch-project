@@ -1,5 +1,5 @@
 <template>
-  <q-page style="background: `grey`">
+  <q-page style="background: `grey`" class="q-px-lg q-py-md">
     <q-form @submit="this.search">
       <q-input color="primary" filled v-model="query" label="Search">
         <template v-slot:prepend>
@@ -13,14 +13,9 @@
         <div class="col"></div>
 
         <div class="col-8">
-          <p class="q-pa-lg q-mb-none text-h3 text-center">
+          <p class="q-pa-lg q-mb-none text-h5 text-center">
             A metadata search engine enabling exploration of the full ML
             life-cycle.
-          </p>
-          <p class="q-pa-lg q-mb-none text-body1 text-center">
-            ModelSearch enables retrieving ML models and relevant attributes
-            based on our proposed metadata representation, facilitating complex
-            inference queries over model zoo.
           </p>
         </div>
 
@@ -31,6 +26,11 @@
     <div class="row" v-if="this.docFlag && this.results.length == 0">
       <div class="col-1"></div>
       <div class="col-10">
+          <p class="q-pa-lg q-mb-none text-body1 text-left">
+            ModelSearch enables retrieving ML models and relevant attributes
+            based on our proposed metadata representation, facilitating complex
+            inference queries over model zoo.
+          </p>
         <p class="q-pa-lg q-mb-none text-h4 text-left">How it works</p>
         <p class="q-pa-lg q-mb-none text-body1 text-left">
           The left panel shows different filtering conditions: Type, Task,
